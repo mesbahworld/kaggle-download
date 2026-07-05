@@ -27,11 +27,14 @@ if [[ -f "$DIR/.env" ]]; then
   set +a
 fi
 
-# Resolve DOWNLOAD_DIR: relative paths are anchored at the project root.
+# Resolve DOWNLOAD_DIR: relative paths are anchored at the project root;
+# a leading "./" is stripped so the resolved path is canonical.
 DEST="${DOWNLOAD_DIR:-$DIR/data}"
-if [[ "$DEST" != /* ]]; then
-  DEST="$DIR/$DEST"
-fi
+case "$DEST" in
+  /*)  ;;                          # already absolute
+  ./*) DEST="$DIR/${DEST#./}" ;;   # strip "./" prefix
+  *)   DEST="$DIR/$DEST" ;;        # bare relative path
+esac
 
 if [[ ! -x "$KAGGLE" ]]; then
   echo ">>> First run: bootstrapping Python environment in .venv/ ..."

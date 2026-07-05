@@ -6,4 +6,5 @@
 # zillow/zecon
 # heptapod/titanic
 
-warcoder/bangla-text-detection-and-recognition
+# warcoder/bangla-text-detection-and-recognition
+heptapod/titanic
