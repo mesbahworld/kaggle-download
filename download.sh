@@ -34,9 +34,14 @@ if [[ "$DEST" != /* ]]; then
 fi
 
 if [[ ! -x "$KAGGLE" ]]; then
-  echo "ERROR: kaggle CLI not found at $KAGGLE" >&2
-  echo "       Run: python3 -m venv .venv && .venv/bin/pip install kaggle" >&2
-  exit 1
+  echo ">>> First run: bootstrapping Python environment in .venv/ ..."
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "ERROR: python3 not found in PATH. Install Python 3.8+ and retry." >&2
+    exit 1
+  fi
+  python3 -m venv "$DIR/.venv"
+  "$KAGGLE" -m pip install --upgrade pip >/dev/null
+  "$KAGGLE" -m pip install kaggle
 fi
 
 if [[ ! -f "$HOME/.kaggle/kaggle.json" \

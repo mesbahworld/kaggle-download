@@ -10,21 +10,14 @@ Each dataset is unzipped into its own subdirectory under `DOWNLOAD_DIR`.
 
 ## Setup
 
-1. **Clone the repo** (or copy the files into a fresh directory):
+1. **Clone the repo:**
 
    ```bash
    git clone git@github.com:mesbahworld/kaggle-download.git
    cd kaggle-download
    ```
 
-2. **Create a virtualenv and install the Kaggle CLI:**
-
-   ```bash
-   python3 -m venv .venv
-   .venv/bin/pip install kaggle
-   ```
-
-3. **Create your `.env` from the template:**
+2. **Create your `.env` from the template:**
 
    ```bash
    cp .env.example .env
@@ -42,6 +35,13 @@ Each dataset is unzipped into its own subdirectory under `DOWNLOAD_DIR`.
    Only one of the credential options is needed. You can also keep credentials
    in `~/.kaggle/kaggle.json` or `~/.kaggle/access_token` (chmod 600) and skip
    the `.env` entries entirely — the script checks those locations too.
+
+3. **Run the downloader.** On first run it will create `.venv/`, install the
+   `kaggle` package, then proceed to download:
+
+   ```bash
+   ./download.sh
+   ```
 
 ## Usage
 
@@ -80,13 +80,16 @@ kaggle-download/
 ├── .gitignore
 ├── README.md
 ├── datasets.txt      # list of Kaggle dataset slugs to download
-└── download.sh       # the downloader
+├── download.sh       # the downloader (auto-bootstraps .venv/ on first run)
+└── .venv/            # created automatically, gitignored
 ```
 
 ## Troubleshooting
 
-- **"kaggle CLI not found at .venv/bin/kaggle"** — you skipped step 2 of
-  Setup. Run it.
+- **"python3 not found in PATH"** — install Python 3.8+ (e.g. `brew install
+  python`).
+- **Bootstrap hangs or fails on `pip install kaggle`** — usually a network
+  issue. Run `./download.sh` again; the venv is reused once created.
 - **"no Kaggle credentials"** — `.env` is missing or the keys are still the
   placeholders. Double-check the file and the values.
 - **403 / 401 errors** — your token is invalid or expired; regenerate it from
