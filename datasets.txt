@@ -1,0 +1,9 @@
+# One Kaggle dataset slug per line, in the form  owner/dataset-name
+# (the part of the URL after kaggle.com/datasets/)
+# Lines starting with # and blank lines are ignored.
+#
+# Examples — uncomment or replace with the datasets you want:
+# zillow/zecon
+# heptapod/titanic
+
+warcoder/bangla-text-detection-and-recognition
